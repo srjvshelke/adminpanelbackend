@@ -1,7 +1,3 @@
-
-const app = require("./App");
-require("./db/conn");
-//env
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -11,8 +7,14 @@ process.on("uncaughtException", (err) => {
     console.log(`Shutting down the server due to Uncaught Exception`);
     process.exit(1);
 });
-const PORT = process.env.PORT;
 
+const app = require("./App");
+require("./db/conn");
+//env
+
+
+const PORT = process.env.PORT;
+ 
 
 const server = app.listen(PORT, () => {
     console.log(`Server is working on http://localhost:${PORT}`);
