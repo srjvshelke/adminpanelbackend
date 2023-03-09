@@ -1,4 +1,5 @@
 const dotenv = require('dotenv');
+
 dotenv.config();
 
 // Handling Uncaught Exception
@@ -7,9 +8,11 @@ process.on("uncaughtException", (err) => {
     console.log(`Shutting down the server due to Uncaught Exception`);
     process.exit(1);
 });
-
-const app = require("./App");
 require("./db/conn");
+const cors = require('cors');
+const app = require("./App");
+app.use(cors());
+
 //env
 
 
