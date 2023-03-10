@@ -1,4 +1,5 @@
 const dotenv = require('dotenv');
+const cors = require('cors');
 
 dotenv.config();
 
@@ -9,7 +10,6 @@ process.on("uncaughtException", (err) => {
     process.exit(1);
 });
 require("./db/conn");
-const cors = require('cors');
 const app = require("./App");
 app.use(cors());
 

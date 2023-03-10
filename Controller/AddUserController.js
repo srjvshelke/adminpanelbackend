@@ -6,15 +6,13 @@ const Adduser = db.Adduser;
 // Get All Product
 exports.adduser = catchAsyncErrors(async (req, res, next) => {
   const { firstname, lastname, employeeid, emailid, contact, type, password, confirmpassword } = req.body;
-  // if (!firstname || !lastname || !employeeid || !emailid || !contact || !type || !confirmpassword || !password) {
-  //   return next(new ErrorHander("Field is empty", 404));
-  // }
-  // const userexist = await AddUser.findOne({ where: { emailid: emailid } });
-  // if (userexist) {
-  //   res.status(404);
-  //   throw new Error("user already exists");
-  // }
-  // let hashpassword = await bcrypt.hash(password, 8);
+  if (!firstname || !lastname || !employeeid || !emailid || !contact || !type || !confirmpassword || !password) {
+    return next(new ErrorHander("Field is empty", 404));
+  }
+  const userexist = await Adduser.findOne({ where: { emailid: emailid } });
+  if (userexist) {
+    return next(new ErrorHander("user already exists", 404));
+  }
   const userdata = await Adduser.create({
     firstname: firstname,
     lastname: lastname,
@@ -32,7 +30,7 @@ exports.adduser = catchAsyncErrors(async (req, res, next) => {
   }
 });
 exports.getAllUsers = async (req, res, next) => {
-  const userdata = await AddUser.findAll();
+  const {userdata} = await Adduser.findAll();
   if (userdata) {
     res.status(201).send(userdata);
   } else {
