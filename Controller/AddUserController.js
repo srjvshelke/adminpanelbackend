@@ -1,7 +1,7 @@
 const ErrorHander = require("../utils/errorhander");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const db = require("../db/conn");
-const Adduser = db.Adduser;
+const Adduser = db.Addusers;
 
 // Get All Product
 exports.adduser = catchAsyncErrors(async (req, res, next) => {
@@ -29,12 +29,14 @@ exports.adduser = catchAsyncErrors(async (req, res, next) => {
     return next(new ErrorHander("failed to create user", 404));
   }
 });
-exports.getAllUsers = async (req, res, next) => {
-  const {userdata} = await Adduser.findAll();
+
+
+exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
+  const  userdata = await Adduser.findAll();
   if (userdata) {
     res.status(201).send(userdata);
   } else {
     return next(new ErrorHander("failed to fetch user", 404));
   }
 
-};
+});

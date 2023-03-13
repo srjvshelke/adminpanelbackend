@@ -22,7 +22,7 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
 
-db.Adduser = require("../Models/AddUser")(sequelize, DataTypes);
+db.Addusers = require("../Models/AddUser")(sequelize, DataTypes);
 
 
 db.sequelize.sync({force:false}).then((result)=>{

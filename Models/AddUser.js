@@ -1,6 +1,6 @@
 
 module.exports = (sequelize, DataTypes) => {
-    const Adduser = sequelize.define("adduser", {
+    const Addusers = sequelize.define("adduser", {
         ID: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -45,5 +45,5 @@ module.exports = (sequelize, DataTypes) => {
         },
 
     });
-    return Adduser;
+    return Addusers;
 }
