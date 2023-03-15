@@ -34,7 +34,8 @@ exports.adduser = catchAsyncErrors(async (req, res, next) => {
 exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
   const  userdata = await Adduser.findAll();
   if (userdata) {
-    res.status(201).send(userdata);
+    // return next(new ErrorHander("failed to fetch user", 404));
+      res.status(201).send(userdata);
   } else {
     return next(new ErrorHander("failed to fetch user", 404));
   }

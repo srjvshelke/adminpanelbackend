@@ -23,9 +23,11 @@ db.sequelize = sequelize;
 
 
 db.Addusers = require("../Models/AddUser")(sequelize, DataTypes);
+db.Addworkorder = require("../Models/AddWorkOrder")(sequelize, DataTypes);
 
 
 db.sequelize.sync({force:false}).then((result)=>{
+    
     console.log("sync is done");
 })
 module.exports = db;
