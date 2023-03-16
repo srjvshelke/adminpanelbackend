@@ -6,7 +6,9 @@ const errorMiddleware = require("./middleware/error");
 //route imports
 
 const users = require("./Routers/AdduserRoutes");
+const workorder = require("./Routers/Addworkorder");
 app.use("/api",users);
+app.use("/api",workorder);
 
 
 
