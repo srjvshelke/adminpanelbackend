@@ -6,7 +6,7 @@ const Addworkorder = db.Addworkorder;
 
 // Get All Product
 exports.addWorkorder = catchAsyncErrors(async (req, res, next) => {
-  let File = (req.body.File) ? req.body.File.name : null;
+  let File = (req.files.File[0]) ? req.files.File[0].originalname : null;
     const {WorkorderID,Title,AssignTo} = req.body;
     // if (!WorkorderID || !Title || !AssignTo|| !File) {
     //   return next(new ErrorHander("Field is empty", 404));
@@ -21,11 +21,11 @@ exports.addWorkorder = catchAsyncErrors(async (req, res, next) => {
     //   AssignTo: AssignTo,
     //   File:File
     // })
-    if (Workorderdata) {
-      res.status(201).send({ WorkorderID,Title,AssignTo,File});
-    } else {
-      return next(new ErrorHander("failed to create user", 404));
-    }
+    // if (Workorderdata) {
+      res.status(201).json({ WorkorderID,Title,AssignTo,File});
+    // } else {
+      // return next(new ErrorHander("failed to create user", 404));
+    // }
     
   });
   
