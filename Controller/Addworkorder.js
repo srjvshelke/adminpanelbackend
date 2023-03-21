@@ -1,6 +1,7 @@
 const ErrorHander = require("../utils/errorhander");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const db = require("../db/conn");
+const client = require("../redis");
 const Addworkorder = db.Addworkorder;
 
 
@@ -8,6 +9,10 @@ const Addworkorder = db.Addworkorder;
 exports.addWorkorder = catchAsyncErrors(async (req, res, next) => {
   let File = (req.files.File[0]) ? req.files.File[0].originalname : null;
     const {WorkorderID,Title,AssignTo} = req.body;
+
+    const resss = await client.sAdd('d1',['a','b']);
+    let ele = await client.sPop("d1")
+    console.log(ele);
     // if (!WorkorderID || !Title || !AssignTo|| !File) {
     //   return next(new ErrorHander("Field is empty", 404));
     // }
