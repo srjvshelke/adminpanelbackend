@@ -2,7 +2,7 @@ let redis = require('redis');
 let client = redis.createClient();
 
 client.on('connect',async() => {
-    console.log('connected')  
+    console.log('redis server is connected')  
     // console.log(await client.set('name','akshsy'))
     await client.flushAll();
     // await client.sAdd('d1',['a','b']);    

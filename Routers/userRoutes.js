@@ -1,13 +1,8 @@
 const express = require("express");
-const login = require("../Controller/login");
-const registerUser = require("../Controller/registerUser");
-const uploadProfile = require("../Controller/uploadimage");
+const {login} = require("../Controller/login");
+
 const router  = express.Router();
-const multer = require('multer');
-const sharp = require("sharp");
 
-
-router.route("/register").post(registerUser);
-router.route("/login").post(loginUser);
+router.route("/login").post(login);
 
 module.exports = router;
