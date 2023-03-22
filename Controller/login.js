@@ -25,19 +25,30 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
         return next(new ErrorHander("Invalid email or password", 401));
     }
     const dbpassword = loginexist.password;
-    if (password != dbpassword) {
-        return next(new ErrorHander("Invalid email or password", 401));
-    }
-    // console.log(dbpassword);
-    // bcrypt.compare(password, dbpassword).then((match) => {
-    // if (!match) {
+    // if (password != dbpassword) {
     //     return next(new ErrorHander("Invalid email or password", 401));
     // }
+    // console.log(dbpassword);
+    bcrypt.compare(password, dbpassword).then((match) => {
+        if (!match) {
+            return next(new ErrorHander("Invalid email or password", 401));
+        }
     const accessToken = createTokens(loginexist);
     res.cookie("access-token", accessToken, {
         maxAge: 60 * 60 * 24 * 30 * 1000,
         httpOnly: true,
     });
-    res.status(201).json({ message: "user login sucessfully",user:{email, password} })
-    // });
+    res.status(201).json({ message: "user login sucessfully", user: { email, password } })
+    });
+});
+
+// Get User Detail
+exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
+
+    const user = await User.findOne({ where: { emailid: req.user.id } });
+
+    res.status(200).json({
+        success: true,
+        user,
+    });
 });

@@ -1,5 +1,6 @@
 const ErrorHander = require("../utils/errorhander");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+const bcrypt = require("bcryptjs");
 const db = require("../db/conn");
 const Adduser = db.Addusers;
 
@@ -13,6 +14,7 @@ exports.adduser = catchAsyncErrors(async (req, res, next) => {
   if (userexist) {
     return next(new ErrorHander("user already exists", 404));
   }
+  let hashpassword = await bcrypt.hash(password, 8);
   const userdata = await Adduser.create({
     firstname: firstname,
     lastname: lastname,
@@ -20,8 +22,8 @@ exports.adduser = catchAsyncErrors(async (req, res, next) => {
     emailid: emailid,
     contact: contact,
     type: type,
-    password: password,
-    confirmpassword: confirmpassword
+    password: hashpassword,
+    confirmpassword: hashpassword
   })
   if (userdata) {
     res.status(201).send({ firstname, lastname, employeeid, emailid, contact, type, password, confirmpassword });
@@ -32,10 +34,10 @@ exports.adduser = catchAsyncErrors(async (req, res, next) => {
 
 
 exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
-  const  userdata = await Adduser.findAll();
+  const userdata = await Adduser.findAll();
   if (userdata) {
     // return next(new ErrorHander("failed to fetch user", 404));
-      res.status(201).send(userdata);
+    res.status(201).send(userdata);
   } else {
     return next(new ErrorHander("failed to fetch user", 404));
   }
