@@ -45,7 +45,9 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
 // Get User Detail
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
 
-    const user = await User.findOne({ where: { emailid: req.user.id } });
+    let id = req.params.id;
+
+    const user = await User.findByPk(id);
 
     res.status(200).json({
         success: true,
