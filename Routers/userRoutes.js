@@ -1,10 +1,10 @@
 const express = require("express");
 const { login, getUserDetails } = require("../Controller/login");
-const { validateToken } = require("../utils/JWT/jwt");
+const {isAuthenticatedUser}  = require("../utils/JWT/auth");
 
 const router = express.Router();
 
 router.route("/login").post(login);
-router.route("/me").get(getUserDetails);
+router.route("/me").get(isAuthenticatedUser,getUserDetails);
 
 module.exports = router;

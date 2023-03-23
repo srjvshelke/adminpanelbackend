@@ -6,14 +6,11 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const db = require("../db/conn");
 const User = db.Addusers;
 const bcrypt = require("bcryptjs");
-
-
-const cookieParser = require("cookie-parser");
 app.use(express.json());
-app.use(cookieParser());
 
 // const jwt = require("jsonwebtoken");
 const { createTokens } = require("../utils/JWT/jwt");
+const sendToken = require('../utils/JWT/jwt');
 
 exports.login = catchAsyncErrors(async (req, res, next) => {
     const { email, password } = req.body;
@@ -33,19 +30,22 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
         if (!match) {
             return next(new ErrorHander("Invalid email or password", 401));
         }
-    const accessToken = createTokens(loginexist);
-    res.cookie("access-token", accessToken, {
-        maxAge: 60 * 60 * 24 * 30 * 1000,
-        httpOnly: true,
+
+       
+    // const accessToken = createTokens(loginexist);
+    // res.cookie("access-token", accessToken, {
+    //     maxAge: 60 * 60 * 24 * 30 * 1000,
+    //     httpOnly: true,
+    // });
+    // res.status(201).json({ message: "user login sucessfully", user: { email, password } })
     });
-    res.status(201).json({ message: "user login sucessfully", user: { email, password } })
-    });
+    sendToken(loginexist, 200, res);
 });
 
 // Get User Detail
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
 
-    let id = req.params.id;
+    let id = req.user.ID;
 
     const user = await User.findByPk(id);
 

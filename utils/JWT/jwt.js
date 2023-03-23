@@ -1,28 +1,52 @@
 const { sign, verify } = require("jsonwebtoken");
 const catchAsyncErrors = require("../../middleware/catchAsyncErrors");
+const jwt = require("jsonwebtoken");
 
-const createTokens = (User) => {
-    const accessToken = sign(
-        { username: User.email, id: User.id },
-        process.env.JWTPIN
+
+const sendToken = (user, statusCode, res) => {
+  
+    const token =  sign(
+        { username: user.email, id: user.ID },
+        'jwtsecretplschange'
     );
+    // options for cookie
+    const options = {
+        maxAge: 60 * 60 * 24 * 30 * 1000,
+        httpOnly: true,
+    };
 
-    return accessToken;
-
+    res.status(statusCode).cookie("token", token, options).json({
+        success: true,
+        user,
+        token,
+    });
 };
 
-const validateToken = catchAsyncErrors(async (req, res, next) => {
-    const accessToken = req.cookies["access-token"];
 
-    if (!accessToken) {
-        return next(new ErrorHander("Please Login to access this resource", 401));
-    }
-    const validToken = verify(accessToken,  process.env.JWTPIN);
-    if (validToken) {
-        req.authenticated = true;
-        return next();
+// exports.createTokens = (User) => {
+//     const accessToken = sign(
+//         { username: User.email, id: User.id },
+//         'jwtsecretplschange'
+//     );
 
-    }
-});
+//     return accessToken;
 
-module.exports = { createTokens, validateToken };
+// };
+
+// const validateToken = catchAsyncErrors(async (req, res, next) => {
+//     const accessToken = req.cookies["access-token"];
+
+//     if (!accessToken) {
+//         return next(new ErrorHander("Please Login to access this resource", 401));
+//     }
+//     const validToken = verify(accessToken, 'jwtsecretplschange');
+//     if (validToken) {
+//         req.authenticated = true;
+//         return next();
+
+//     }
+// });
+
+
+module.exports = sendToken;
+
