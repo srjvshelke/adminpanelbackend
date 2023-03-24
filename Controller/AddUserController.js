@@ -6,6 +6,7 @@ const Adduser = db.Addusers;
 
 // Get All Product
 exports.adduser = catchAsyncErrors(async (req, res, next) => {
+  let File = (req.files.Profile[0]) ? req.files.Profile[0].originalname : null;
   const { firstname, lastname, employeeid, emailid, contact, type, password, confirmpassword } = req.body;
   if (!firstname || !lastname || !employeeid || !emailid || !contact || !type || !confirmpassword || !password) {
     return next(new ErrorHander("Field is empty", 404));
@@ -23,10 +24,11 @@ exports.adduser = catchAsyncErrors(async (req, res, next) => {
     contact: contact,
     type: type,
     password: hashpassword,
-    confirmpassword: hashpassword
+    confirmpassword: hashpassword,
+    Profile:File
   })
   if (userdata) {
-    res.status(201).send({ firstname, lastname, employeeid, emailid, contact, type, password, confirmpassword });
+    res.status(201).send({ firstname, lastname, employeeid, emailid, contact, type, password, confirmpassword,File });
   } else {
     return next(new ErrorHander("failed to create user", 404));
   }

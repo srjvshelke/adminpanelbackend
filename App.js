@@ -9,7 +9,7 @@ const login = require("./Routers/userRoutes");
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 app.use(bodyParser.urlencoded({ extended: true }));
-
+app.use("/Uploads",express.static('Uploads'))
 
 app.use("/api", users);
 app.use("/api", workorder);

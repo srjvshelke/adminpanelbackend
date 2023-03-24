@@ -31,13 +31,13 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
             return next(new ErrorHander("Invalid email or password", 401));
         }
 
-       
-    // const accessToken = createTokens(loginexist);
-    // res.cookie("access-token", accessToken, {
-    //     maxAge: 60 * 60 * 24 * 30 * 1000,
-    //     httpOnly: true,
-    // });
-    // res.status(201).json({ message: "user login sucessfully", user: { email, password } })
+
+        // const accessToken = createTokens(loginexist);
+        // res.cookie("access-token", accessToken, {
+        //     maxAge: 60 * 60 * 24 * 30 * 1000,
+        //     httpOnly: true,
+        // });
+        // res.status(201).json({ message: "user login sucessfully", user: { email, password } })
     });
     sendToken(loginexist, 200, res);
 });
@@ -52,5 +52,18 @@ exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
     res.status(200).json({
         success: true,
         user,
+    });
+});
+
+// Logout User
+exports.logout = catchAsyncErrors(async (req, res, next) => {
+    res.cookie("token", null, {
+        expires: new Date(Date.now()),
+        httpOnly: true,
+    });
+
+    res.status(200).json({
+        success: true,
+        message: "Logged Out",
     });
 });
