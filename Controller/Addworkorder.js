@@ -9,10 +9,17 @@ const Addworkorder = db.Addworkorder;
 exports.addWorkorder = catchAsyncErrors(async (req, res, next) => {
   let File = (req.files.File[0]) ? req.files.File[0].originalname : null;
   const { WorkorderID, Title, AssignTo } = req.body;
+  const wordorderdata = {
+    WorkorderID: WorkorderID,
+    Title: Title,
+    AssignTo: AssignTo,
+    File: File
+  }
+  const result = await client.hGet("Workorderdata");
+  console.log(result);
+  const redisres = await client.hSet("Workorderdata", 'Workorderdata', JSON.stringify(wordorderdata));
 
-  const resss = await client.sAdd('d1', ['a', 'b']);
-  let ele = await client.sPop("d1")
-  console.log(ele);
+  console.log(redisres);
   if (!WorkorderID || !Title || !AssignTo || !File) {
     return next(new ErrorHander("Field is empty", 404));
   }
