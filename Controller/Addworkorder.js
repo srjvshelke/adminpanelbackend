@@ -3,10 +3,13 @@ const catchAsyncErrors = require("../middleware/catchAsyncErrors");
 const db = require("../db/conn");
 const client = require("../redis");
 const Addworkorder = db.Addworkorder;
-
-
+const jwt = require("jsonwebtoken");
+const { json } = require("express");
 // Get All Product
 exports.addWorkorder = catchAsyncErrors(async (req, res, next) => {
+  const { token } = req.cookies;
+  const decodedData =await jwt.verify(token, process.env.JWTPIN);
+  console.log(decodedData.id);
   let File = (req.files.File[0]) ? req.files.File[0].originalname : null;
   const { WorkorderID, Title, AssignTo } = req.body;
   const wordorderdata = {
@@ -15,11 +18,20 @@ exports.addWorkorder = catchAsyncErrors(async (req, res, next) => {
     AssignTo: AssignTo,
     File: File
   }
-  const result = await client.hGet("Workorderdata");
-  console.log(result);
-  const redisres = await client.hSet("Workorderdata", 'Workorderdata', JSON.stringify(wordorderdata));
 
-  console.log(redisres);
+
+
+  await client.hSet(String(decodedData.id),'workData',JSON.stringify(wordorderdata))
+
+  // await hSet(decodedData.id,'personal',JSON.stringify(personal))
+
+//   for (const key in personal) {
+//     await client.hSet(decodedData.id,key,wordorderdata[key])
+//  }
+//  const redisres = await client.("Workorderdata", 'Workorderdata', JSON.stringify(wordorderdata));
+  const result = await client.hGetAll(String(decodedData.id));
+
+  console.log(JSON.parse(result));
   if (!WorkorderID || !Title || !AssignTo || !File) {
     return next(new ErrorHander("Field is empty", 404));
   }
@@ -33,7 +45,9 @@ exports.addWorkorder = catchAsyncErrors(async (req, res, next) => {
     AssignTo: AssignTo,
     File: File
   })
+ n 
   if (Workorderdata) {
+   
     res.status(201).json({ WorkorderID, Title, AssignTo, File });
   } else {
     return next(new ErrorHander("failed to create user", 404));
