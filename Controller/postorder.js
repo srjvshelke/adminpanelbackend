@@ -5,30 +5,21 @@ const client = require("../redis");
 const Addworkorder = db.Addworkorder;
 const jwt = require("jsonwebtoken");
 const { json } = require("express");
-// Get All Product
-exports.addWorkorder = catchAsyncErrors(async (req, res, next) => {
-  const { token } = req.cookies;
-  const decodedData = await jwt.verify(token, process.env.JWTPIN);
-  console.log(decodedData.id);
-  let File = (req.files.File[0]) ? req.files.File[0].originalname : null;
-  const { WorkorderID, Title, AssignTo } = req.body;
-  const wordorderdata = {
-    WorkorderID: WorkorderID,
-    Title: Title,
-    AssignTo: AssignTo,
-    File: File
-  }
+
+exports.posttotredis = catchAsyncErrors(async (logindetails) => {
+ 
+const workorderdata = getallWorkorderdata();
 
 
 
-  await client.hSet(String(decodedData.id), 'workOrderData', JSON.stringify(wordorderdata))
+  await client.hSet(String(decodedData.id),'workOrderData',JSON.stringify(wordorderdata))
 
   // await hSet(decodedData.id,'personal',JSON.stringify(personal))
 
-  //   for (const key in personal) {
-  //     await client.hSet(decodedData.id,key,wordorderdata[key])
-  //  }
-  //  const redisres = await client.("Workorderdata", 'Workorderdata', JSON.stringify(wordorderdata));
+//   for (const key in personal) {
+//     await client.hSet(decodedData.id,key,wordorderdata[key])
+//  }
+//  const redisres = await client.("Workorderdata", 'Workorderdata', JSON.stringify(wordorderdata));
   const result = await client.hGetAll(String(decodedData.id));
 
   console.log(JSON.parse(result));
@@ -44,10 +35,9 @@ exports.addWorkorder = catchAsyncErrors(async (req, res, next) => {
     Title: Title,
     AssignTo: AssignTo,
     File: File
-  })
-  n
+  });
   if (Workorderdata) {
-
+   
     res.status(201).json({ WorkorderID, Title, AssignTo, File });
   } else {
     return next(new ErrorHander("failed to create user", 404));
@@ -58,13 +48,13 @@ exports.addWorkorder = catchAsyncErrors(async (req, res, next) => {
 
 
 
-exports.getallWorkorderdata = catchAsyncErrors(async (req, res, next) => {
-  const workorderdata = await Addworkorder.findAll();
-  if (workorderdata) {
+exports.getAllUsers = catchAsyncErrors(async (req, res, next) => {
+  const userdata = await Addworkorder.findAll();
+  if (userdata) {
     // return next(new ErrorHander("failed to fetch user", 404));
-    res.status(201).send(workorderdata);
+    res.status(201).send(userdata);
   } else {
-    return next(new ErrorHander("failed to fetchworkorderdata", 404));
+    return next(new ErrorHander("failed to fetch user", 404));
   }
 
 });

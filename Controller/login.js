@@ -11,6 +11,7 @@ app.use(express.json());
 // const jwt = require("jsonwebtoken");
 const { createTokens } = require("../utils/JWT/jwt");
 const sendToken = require('../utils/JWT/jwt');
+const { posttotredis } = require('./postorder');
 
 exports.login = catchAsyncErrors(async (req, res, next) => {
     const { email, password } = req.body;
@@ -21,24 +22,17 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
     if (!loginexist) {
         return next(new ErrorHander("Invalid email or password", 401));
     }
+    //pushing to redis
+   
+    //
     const dbpassword = loginexist.password;
-    // if (password != dbpassword) {
-    //     return next(new ErrorHander("Invalid email or password", 401));
-    // }
-    // console.log(dbpassword);
     bcrypt.compare(password, dbpassword).then((match) => {
         if (!match) {
             return next(new ErrorHander("Invalid email or password", 401));
         }
-
-
-        // const accessToken = createTokens(loginexist);
-        // res.cookie("access-token", accessToken, {
-        //     maxAge: 60 * 60 * 24 * 30 * 1000,
-        //     httpOnly: true,
-        // });
-        // res.status(201).json({ message: "user login sucessfully", user: { email, password } })
     });
+
+    await posttotredis(loginexist);
     sendToken(loginexist, 200, res);
 });
 
