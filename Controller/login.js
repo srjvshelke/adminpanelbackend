@@ -7,7 +7,7 @@ const db = require("../db/conn");
 const User = db.Addusers;
 const bcrypt = require("bcryptjs");
 app.use(express.json());
-
+const client = require("../redis");
 // const jwt = require("jsonwebtoken");
 const { createTokens } = require("../utils/JWT/jwt");
 const sendToken = require('../utils/JWT/jwt');
@@ -31,7 +31,6 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
             return next(new ErrorHander("Invalid email or password", 401));
         }
     });
-
     await posttotredis(loginexist);
     sendToken(loginexist, 200, res);
 });
@@ -55,7 +54,9 @@ exports.logout = catchAsyncErrors(async (req, res, next) => {
         expires: new Date(Date.now()),
         httpOnly: true,
     });
-
+//redis clearing data 
+await client.flushAll();
+//
     res.status(200).json({
         success: true,
         message: "Logged Out",

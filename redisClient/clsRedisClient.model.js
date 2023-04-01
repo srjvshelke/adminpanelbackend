@@ -10,7 +10,6 @@ module.exports = class clsRedis {
       let allArrays = [
         "arrUserRights",
         "arrUsers",
-
         //calibration
         "arrCalibCounter",
         "arrOfBalListWithPortNumber",
@@ -24,7 +23,6 @@ module.exports = class clsRedis {
         "arrCalibCounterApi",
         "arrSelectedBalWithHmi",
         "monitDetail",
-
         "arrsendWt",
         "glbArrOfDecimal",
         "arrCalibInsertCounter",
@@ -38,7 +36,6 @@ module.exports = class clsRedis {
         "arrProductTypeArray",
         "weighmentstatus",
         "ForceRemainderSkip",
-
         "arr_Perform_Reminder_CalibDueDt",
         "arrDataFromInstHardness",
         "arrHardness425",

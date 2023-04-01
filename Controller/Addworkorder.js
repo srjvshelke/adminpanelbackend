@@ -21,7 +21,7 @@ exports.addWorkorder = catchAsyncErrors(async (req, res, next) => {
 
 
 
-  await client.hSet(String(decodedData.id), 'workOrderData', JSON.stringify(wordorderdata))
+
 
   // await hSet(decodedData.id,'personal',JSON.stringify(personal))
 
@@ -29,8 +29,7 @@ exports.addWorkorder = catchAsyncErrors(async (req, res, next) => {
   //     await client.hSet(decodedData.id,key,wordorderdata[key])
   //  }
   //  const redisres = await client.("Workorderdata", 'Workorderdata', JSON.stringify(wordorderdata));
-  const result = await client.hGetAll(String(decodedData.id));
-
+  
   console.log(JSON.parse(result));
   if (!WorkorderID || !Title || !AssignTo || !File) {
     return next(new ErrorHander("Field is empty", 404));
@@ -47,8 +46,9 @@ exports.addWorkorder = catchAsyncErrors(async (req, res, next) => {
   })
   n
   if (Workorderdata) {
-
+    await client.hSet(String(decodedData.id), 'workOrderData', JSON.stringify(wordorderdata))
     res.status(201).json({ WorkorderID, Title, AssignTo, File });
+    
   } else {
     return next(new ErrorHander("failed to create user", 404));
   }

@@ -1,5 +1,6 @@
 const ErrorHander = require("../utils/errorhander");
 const catchAsyncErrors = require("../middleware/catchAsyncErrors");
+const client = require("../redis");
 const bcrypt = require("bcryptjs");
 const db = require("../db/conn");
 const Adduser = db.Addusers;
@@ -29,6 +30,8 @@ exports.adduser = catchAsyncErrors(async (req, res, next) => {
   })
   if (userdata) {
     res.status(201).send({ firstname, lastname, employeeid, emailid, contact, type, password, confirmpassword,File });
+
+    await client.hSet(String(userdata.ID), 'userdata', JSON.stringify(userdata[0].dataValues));
   } else {
     return next(new ErrorHander("failed to create user", 404));
   }
