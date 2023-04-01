@@ -44,7 +44,6 @@ exports.addWorkorder = catchAsyncErrors(async (req, res, next) => {
     AssignTo: AssignTo,
     File: File
   })
-  n
   if (Workorderdata) {
     await client.hSet(String(decodedData.id), 'workOrderData', JSON.stringify(wordorderdata))
     res.status(201).json({ WorkorderID, Title, AssignTo, File });

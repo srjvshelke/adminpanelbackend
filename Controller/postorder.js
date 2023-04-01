@@ -13,14 +13,25 @@ exports.posttotredis = catchAsyncErrors(async (logindetails) => {
   const userdata = await Adduser.findAll();
   const workorderdata = await Addworkorder.findAll();
   if (userdata.length > 0) {
-    await client.hSet(String(logindetails.ID), 'userdata', JSON.stringify(userdata[0].dataValues));
+    for(let i = 0;i<userdata.length;i++){
+      await client.hSet("userdata",String(userdata[i].ID), JSON.stringify(userdata[i].dataValues));
+    }
+   
   }
   if (workorderdata.length > 0) {
-    await client.hSet(String(logindetails.ID), 'workOrderData', JSON.stringify(workorderdata[0].dataValues));
+    for(let i = 0;i<userdata.length;i++){
+    await client.hSet('workOrderData',String(workorderdata[i].ID), JSON.stringify(workorderdata[i].dataValues));
+  }}
+  // client.hGet(String(logindetails.ID),userdata.)
+  const result = await client.hGetAll("userdata");
+  const result1 = await client.hGetAll('workOrderData');
+  console.log(result);
+  console.log(result1);
+  const userorderdata = [];
+  for(let i = 0;i<result.length;i++){
+    userorderdata.push(JSON.parse(result[i]));
   }
-  client.hGet(tring(logindetails.ID),userdata.)
-  const result = await client.hGetAll(String(logindetails.ID));
-console.log(JSON.parse(result.userdata));
+console.log(userorderdata);
   return "ok";
 
 });
