@@ -10,6 +10,8 @@ const { parse } = require("dotenv");
 
 exports.posttotredis = catchAsyncErrors(async (logindetails) => {
 
+
+  // const user = await Adduser.findByPk(id);
   const userdata = await Adduser.findAll();
   const workorderdata = await Addworkorder.findAll();
   if (userdata.length > 0) {
@@ -23,15 +25,16 @@ exports.posttotredis = catchAsyncErrors(async (logindetails) => {
     await client.hSet('workOrderData',String(workorderdata[i].ID), JSON.stringify(workorderdata[i].dataValues));
   }}
   // client.hGet(String(logindetails.ID),userdata.)
-  const result = await client.hGetAll("userdata");
-  const result1 = await client.hGetAll('workOrderData');
-  console.log(result);
-  console.log(result1);
-  const userorderdata = [];
-  for(let i = 0;i<result.length;i++){
-    userorderdata.push(JSON.parse(result[i]));
-  }
-console.log(userorderdata);
+  // const result3 = await client.hGetAll('userdata');
+  // const result = await client.hGet("userdata","3");
+  // const result1 = await client.hGetAll('workOrderData');
+  // console.log(result);
+  // console.log(result1);
+  // const userorderdata = [];
+  // for(let i = 0;i<result.length;i++){
+  //   userorderdata.push(JSON.parse(result[i]));
+  // }
+// console.log(userorderdata);
   return "ok";
 
 });

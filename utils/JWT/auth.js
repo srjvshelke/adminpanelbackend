@@ -1,8 +1,10 @@
 const { sign, verify } = require("jsonwebtoken");
 const catchAsyncErrors = require("../../middleware/catchAsyncErrors");
+const ErrorHander = require("../errorhander");
 const db = require("../../db/conn");
 const User = db.Addusers;
 const jwt = require("jsonwebtoken");
+const client = require("../../redis");
 
 exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
     const { token } = req.cookies;
@@ -12,8 +14,9 @@ exports.isAuthenticatedUser = catchAsyncErrors(async (req, res, next) => {
     }
 
     const decodedData = jwt.verify(token, 'jwtsecretplschange');
-
-    req.user = await User.findByPk(decodedData.id);
+    var user = await client.hGet("userdata",String(decodedData.id));
+    req.user = JSON.parse(user);
+    // req.user = await User.findByPk(decodedData.id);
 
     next();
 });

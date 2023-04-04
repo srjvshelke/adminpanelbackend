@@ -12,6 +12,7 @@ const client = require("../redis");
 const { createTokens } = require("../utils/JWT/jwt");
 const sendToken = require('../utils/JWT/jwt');
 const { posttotredis } = require('./postorder');
+const { string } = require('prop-types');
 
 exports.login = catchAsyncErrors(async (req, res, next) => {
     const { email, password } = req.body;
@@ -39,9 +40,9 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
 
     let id = req.user.ID;
-
-    const user = await User.findByPk(id);
-
+    var user = await client.hGet("userdata",String(id));
+    // const user = await User.findByPk(id);
+    user = JSON.parse(user);
     res.status(200).json({
         success: true,
         user,
@@ -55,7 +56,7 @@ exports.logout = catchAsyncErrors(async (req, res, next) => {
         httpOnly: true,
     });
 //redis clearing data 
-await client.flushAll();
+// await client.flushAll();
 //
     res.status(200).json({
         success: true,
