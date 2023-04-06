@@ -12,7 +12,7 @@ const client = require("../redis");
 const { createTokens } = require("../utils/JWT/jwt");
 const sendToken = require('../utils/JWT/jwt');
 const { posttotredis } = require('./postorder');
-const { string } = require('prop-types');
+
 
 exports.login = catchAsyncErrors(async (req, res, next) => {
     const { email, password } = req.body;
