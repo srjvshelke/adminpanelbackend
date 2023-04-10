@@ -1,0 +1,57 @@
+#1 how to add vlaues to given hash reference
+
+   await client.hSet('user','name','akshay')
+   
+   
+     //  to add multiple key vlaues
+     await client.hSet('user','name','akshay')
+     await client.hSet('user','age','21')
+
+#2 how to fetch value of single key from given hash
+
+    client.hGet('user','name')
+
+#3 how to fetch all keys with values from given hash
+
+    client.hGetAll('user')  // {name:'skahay',age:'21'}
+    // will return object of all keys and values
+
+#4 how to check if key exists of given hash
+
+   await client.hExists('user','name')  // will return true or false
+
+#5 how to delete any key of given hash
+
+   await client.hDel('user','name') // will delete given key
+
+#6 how to set key only if key does not already exists
+
+   await client.hSetNX('user','name','akshay') 
+
+    // will set key only if it is not available
+
+#7 how to fetch keys of given hash
+
+   client.hKeys('user')  // ['name', 'age']
+
+#8 how to increment values of given keys
+
+   client.hIncrBy('user','age',10)  // will increment value by adding 10
+
+#9 how to fetch only values of keys from given hash
+
+   client.hVals('user')  // ['akshay',21]
+
+#10 how to fetch length of all keys in given hash
+
+   client.hLen('user')  // will return length 
+
+
+
+
+
+user={
+ personal : json,
+
+ work  : 
+}

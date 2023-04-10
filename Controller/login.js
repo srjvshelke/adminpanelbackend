@@ -40,9 +40,16 @@ exports.login = catchAsyncErrors(async (req, res, next) => {
 exports.getUserDetails = catchAsyncErrors(async (req, res, next) => {
 
     let id = req.user.ID;
-    var user = await client.hGet("userdata",String(id));
-    // const user = await User.findByPk(id);
+   var presentinredis =  await client.hExists('userdata',String(id)) ;
+   var user;
+   if(presentinredis){
+    user = await client.hGet("userdata",String(id));
     user = JSON.parse(user);
+   }else{
+    user = await User.findByPk(id);
+   }
+    // const 
+
     res.status(200).json({
         success: true,
         user,
@@ -56,7 +63,7 @@ exports.logout = catchAsyncErrors(async (req, res, next) => {
         httpOnly: true,
     });
 //redis clearing data 
-// await client.flushAll();
+await client.flushAll();
 //
     res.status(200).json({
         success: true,
