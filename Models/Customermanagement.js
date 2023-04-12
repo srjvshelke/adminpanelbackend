@@ -49,29 +49,89 @@ module.exports = (sequelize, DataTypes) => {
         WING: {
             type: DataTypes.STRING,
             allowNull: false
-        } , 
+        },
         PLOTNo: {
             type: DataTypes.STRING,
             allowNull: false
-        }  ,
+        },
         ROADNAME: {
             type: DataTypes.STRING,
             allowNull: false
-        },  
+        },
         LANDMARK: {
             type: DataTypes.STRING,
             allowNull: false
+        },
+        COLONY: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        LOCATION: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        CITY: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        DISTRICT: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        PINCODE: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        TELNUMBER1: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        MOB_NUMBER: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        eMAIL: {
+            type: DataTypes.STRING,
+            allowNull: false
         }, 
-          COLONY: {
+        DRSNO: {
             type: DataTypes.STRING,
             allowNull: false
-        },   COLONY: {
+        },
+        SEARCH1: {
             type: DataTypes.STRING,
             allowNull: false
-        } ,  FLATNO: {
+        },
+        CONNECTONOBJECT: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        KEY: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        FUNCTIONALLOCATION: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        PLANTNAME: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        PLANTLOCATIO: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        PLANTSECTION: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        PORTION: {
             type: DataTypes.STRING,
             allowNull: false
         }
+
+
 
     });
     return Customer;
