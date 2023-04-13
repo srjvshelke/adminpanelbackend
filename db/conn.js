@@ -24,7 +24,7 @@ db.sequelize = sequelize;
 
 db.Addusers = require("../Models/AddUser")(sequelize, DataTypes);
 db.Addworkorder = require("../Models/AddWorkOrder")(sequelize, DataTypes);
-// db.Customer = require("../Models/Customermanagement")(sequelize, DataTypes);
+db.Customer = require("../Models/Customermanagement")(sequelize, DataTypes);
 
 
 db.sequelize.sync({ force: false }).then((result) => {

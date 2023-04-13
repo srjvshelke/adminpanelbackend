@@ -1,6 +1,6 @@
 
 module.exports = (sequelize, DataTypes) => {
-    const Customer = sequelize.define("CustomerManagement", {
+    const Customer = sequelize.define("customermanagement", {
         ID: {
             type: DataTypes.INTEGER,
             primaryKey: true,
@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false
         },
         NAME: {
-            type: DataTypes.INTEGER,
+            type: DataTypes.STRING,
             allowNull: false
         },
         ADDRESSNO: {
@@ -93,7 +93,7 @@ module.exports = (sequelize, DataTypes) => {
         eMAIL: {
             type: DataTypes.STRING,
             allowNull: false
-        }, 
+        },
         DRSNO: {
             type: DataTypes.STRING,
             allowNull: false
