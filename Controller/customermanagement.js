@@ -8,6 +8,7 @@ const { json } = require("express");
 // Get All Product
 exports.getcustomerdata = catchAsyncErrors(async (req, res, next) => {
   const Customerdata = await Customer.findAll();
+  console.log("reach")
   if (Customerdata) {
     // return next(new ErrorHander("failed to fetch user", 404));
     res.status(201).send(Customerdata);
